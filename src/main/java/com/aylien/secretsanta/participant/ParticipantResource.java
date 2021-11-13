@@ -18,7 +18,15 @@ public class ParticipantResource {
 
     @POST
     public Set<Participant> register(Participant participant) {
-        return service.register(participant);
+        service.register(participant);
+        return service.list();
+    }
+
+    @POST
+    @Path("bulk")
+    public Set<Participant> register(Set<Participant> participants) {
+        participants.forEach(service::register);
+        return service.list();
     }
 
     @DELETE

@@ -13,11 +13,10 @@ public class ParticipantService {
         return participants;
     }
 
-    public Set<Participant> register(Participant participant) {
+    public void register(Participant participant) {
         if (!participants.add(participant)) {
             throw new AlreadyRegisteredException(participant);
         }
-        return participants;
     }
 
     public Set<Participant> delete(Participant participant) {
