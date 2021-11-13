@@ -2,12 +2,12 @@ package com.aylien.secretsanta.participant;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.util.Collections;
-import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 @ApplicationScoped
 public class ParticipantService {
-    private final Set<Participant> participants = Collections.newSetFromMap(Collections.synchronizedMap(new LinkedHashMap<>()));
+    private final Set<Participant> participants = Collections.synchronizedSet(new LinkedHashSet<>());
 
     public Set<Participant> list() {
         return participants;

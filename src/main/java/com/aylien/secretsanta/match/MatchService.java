@@ -4,8 +4,7 @@ import com.aylien.secretsanta.participant.Participant;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.time.Year;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 @ApplicationScoped
 public class MatchService {
@@ -16,13 +15,20 @@ public class MatchService {
             throw new NotEnoughParticipantsException();
         }
 
+        Set<Participant> whoHasBeenMatchedAlready = new HashSet<>();
+
         participants.stream().
                 filter(participant -> notMatched(participant, year))
-                .forEach(participant -> tryMatch(participants, participant, year));
+                .forEach(participant -> tryMatch(participants, participant, year, whoHasBeenMatchedAlready));
     }
 
-    private void tryMatch(Set<Participant> participants, Participant participant, Year year) {
+    private void tryMatch(Set<Participant> participants,
+                          Participant participant,
+                          Year year,
+                          Set<Participant> whoHasBeenMatchedAlready
+    ) {
         var possibleMatches = participants.stream()
+                .filter(possibleMatch -> !whoHasBeenMatchedAlready.contains(possibleMatch))
                 .filter(possibleMatch -> isNotSelf(participant, possibleMatch))
                 .filter(possibleMatch -> isNotRecentlyMatched(possibleMatch, participant, year))
                 .toList();
@@ -34,6 +40,7 @@ public class MatchService {
         Participant match = possibleMatches.get(random.nextInt(possibleMatches.size()));
 
         participant.matchHistory.put(year, match);
+        whoHasBeenMatchedAlready.add(match);
     }
 
     private boolean notMatched(Participant participant, Year year) {
