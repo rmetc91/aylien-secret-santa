@@ -1,6 +1,6 @@
 package com.aylien.secretsanta.participant;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -19,7 +19,7 @@ public final class Participant {
     @ToString.Include
     public String email;
 
-    @JsonIgnore
+    @JsonIgnoreProperties({"matchHistory"})
     public Map<Year, Participant> matchHistory = new HashMap<>();
 
     public Participant(String email) {
