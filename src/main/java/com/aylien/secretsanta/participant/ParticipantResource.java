@@ -1,36 +1,28 @@
 package com.aylien.secretsanta.participant;
 
+import javax.inject.Inject;
 import javax.ws.rs.*;
-import java.util.Collections;
-import java.util.LinkedHashMap;
 import java.util.Set;
 
 @Consumes("application/json")
 @Produces("application/json")
 @Path("/participants")
 public class ParticipantResource {
-    private Set<Participant> participants = Collections.newSetFromMap(Collections.synchronizedMap(new LinkedHashMap<>()));
-
-    public ParticipantResource() {
-        participants.add(new Participant("johndoe@example.com"));
-        participants.add(new Participant("janedoe@example.com"));
-        participants.add(new Participant("joebloggs@example.com"));
-    }
+    @Inject
+    ParticipantService service;
 
     @GET
     public Set<Participant> list() {
-        return participants;
+        return service.list();
     }
 
     @POST
-    public Set<Participant> add(Participant participant) {
-        participants.add(participant);
-        return participants;
+    public Set<Participant> register(Participant participant) {
+        return service.register(participant);
     }
 
     @DELETE
     public Set<Participant> delete(Participant participant) {
-        participants.removeIf(existingParticipant -> existingParticipant.email.contentEquals(participant.email));
-        return participants;
+        return service.delete(participant);
     }
 }
