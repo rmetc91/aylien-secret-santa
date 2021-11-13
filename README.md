@@ -1,8 +1,11 @@
-# secret-santa Project
+# Aylien Secret Santa
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
+A REST API service that will choose a [Secret Santa](https://en.wikipedia.org/wiki/Secret_Santa) for all your teammates.
 
-If you want to learn more about Quarkus, please visit its website: https://quarkus.io/ .
+## Rules
+
+* A person cannot be their own Secret Santa
+* A person can only be the same other person's Secret Santa once every three years.
 
 ## Running the application in dev mode
 
@@ -12,7 +15,13 @@ You can run your application in dev mode that enables live coding using:
 ./mvnw compile quarkus:dev
 ```
 
-> **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at http://localhost:8080/q/dev/.
+## Querying the OpenAPI Specifications
+
+Once the application is started, you can make a request to the default `/q/openapi`  endpoint:
+
+```shell script
+curl http://localhost:8080/q/openapi
+```
 
 ## Packaging and running the application
 
@@ -53,11 +62,3 @@ You can then execute your native executable with: `./target/secret-santa-1.0-SNA
 
 If you want to learn more about building native executables, please consult https://quarkus.io/guides/maven-tooling.html
 .
-
-## Provided Code
-
-### RESTEasy JAX-RS
-
-Easily start your RESTful Web Services
-
-[Related guide section...](https://quarkus.io/guides/getting-started#the-jax-rs-resources)
